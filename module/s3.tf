@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "valheim" {
-  bucket_prefix = local.name
-  tags          = local.tags
+  bucket = local.name
+  tags   = local.tags
 }
 
 resource "aws_s3_bucket_versioning" "valheim" {
@@ -80,7 +80,8 @@ resource "aws_s3_object" "install_valheim" {
   bucket         = aws_s3_bucket.valheim.id
   key            = "/install_valheim.sh"
   content_base64 = base64encode(templatefile("${path.module}/local/install_valheim.sh", {
-    username = local.username
+    username                  = local.username
+    additional_steam_cmd_args = var.additional_steam_cmd_args
   }))
   etag           = filemd5("${path.module}/local/install_valheim.sh")
 }
@@ -99,11 +100,11 @@ resource "aws_s3_object" "start_valheim" {
   bucket = aws_s3_bucket.valheim.id
   key    = "/start_valheim.sh"
   content_base64 = base64encode(templatefile("${path.module}/local/start_valheim.sh", {
-    username        = local.username
-    bucket          = aws_s3_bucket.valheim.id
-    world_name      = var.world_name
-    server_name     = var.server_name
-    server_password = var.server_password
+    username                  = local.username
+    bucket                    = aws_s3_bucket.valheim.id
+    world_name                = var.world_name
+    server_name               = var.server_name
+    server_password           = var.server_password
   }))
   etag = filemd5("${path.module}/local/start_valheim.sh")
 }
@@ -112,9 +113,10 @@ resource "aws_s3_object" "backup_valheim" {
   bucket = aws_s3_bucket.valheim.id
   key    = "/backup_valheim.sh"
   content_base64 = base64encode(templatefile("${path.module}/local/backup_valheim.sh", {
-    username   = local.username
-    bucket     = aws_s3_bucket.valheim.id
-    world_name = var.world_name
+    username    = local.username
+    bucket      = aws_s3_bucket.valheim.id
+    server_name = var.server_name
+    world_name  = var.world_name
   }))
   etag = filemd5("${path.module}/local/backup_valheim.sh")
 }

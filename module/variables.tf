@@ -33,6 +33,10 @@ variable "world_name" {
   type = string
 }
 
+variable "additional_steam_cmd_args" {
+  type = string
+}
+
 variable "admins" {
   type = map(any)
 }

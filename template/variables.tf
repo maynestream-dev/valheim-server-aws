@@ -6,7 +6,7 @@ variable "aws_region" {
 
 variable "server_name" {
   type        = string
-  default     = "valheim-server"
+  default     = "valheim"
   description = "The server name"
 }
 
@@ -25,6 +25,11 @@ variable "world_name" {
   type        = string
   default     = "Dedicated"
   description = "The Valheim world name"
+}
+
+variable "additional_steam_cmd_args" {
+  type = string
+  default = ""
 }
 
 variable "admins" {
